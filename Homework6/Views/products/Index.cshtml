@@ -16,11 +16,11 @@
 <p>
     @using(Html.BeginForm("Index", "products", FormMethod.Get))
             {
-                @Html.TextBox("searchProduct")<input type="submit" class="btn btn-info" value="Search"/>
+                @Html.TextBox("searchProduct") <input type="submit" class="btn btn-info" value="Search"/> 
 
             }
              
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create" )
 </p>
 <p>
     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#productModal">Create</a>

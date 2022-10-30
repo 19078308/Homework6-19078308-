@@ -1,0 +1,113 @@
+﻿@*@model Homework6.Models.product*@
+@*IEnumerable<Homework6.Models.product>*@
+
+@using Homework6.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>
+    Products
+</h1>
+<p>
+    @using(Html.BeginForm("Index", "products", FormMethod.Get))
+            {
+                @Html.TextBox("searchProduct")<input type="submit" class="btn btn-info" value="Search"/>
+
+            }
+             
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#productModal">Create</a>
+</p>
+
+<div class="modal fade" id="productModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">New Product</h2>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <label>Product Name</label>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Brand
+            </th>
+            <th>
+                Category
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td colspan="3" style="color:red">
+                    No results/match found
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in ViewBag.Products)
+        {
+            <tr>
+                <td>
+                    @item.product_name
+                </td>
+                <td>
+                    @item.model_year
+                </td>
+                <td>
+                    @item.list_price
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem =>*@
+                    @item.brand.brand_name
+                </td>
+                <td>
+                    @item.category.category_name
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.product_id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.product_id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.product_id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        }
+    </tbody>
+</table>
+<div></div>
+Page @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber)/@Model.PageCount)
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new {page = page}))
+</div>
